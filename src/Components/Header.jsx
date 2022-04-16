@@ -1,47 +1,49 @@
-import React,{useEffect} from "react";
-import styled from "styled-components";
-import { Link, useHistory } from "react-router-dom";
-import "./components.css";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom';
+import './components.css';
 import {
   selectUserName,
   selectUserPhoto,
   setSignOutState,
   setUserLoginDetails,
-} from "../features/user/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { auth, provider } from "../Firebase";
+} from '../features/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { auth, provider } from '../Firebase';
 const Header = (props) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useNavigate();
   const userName = useSelector(selectUserName);
   const userPhoto = useSelector(selectUserPhoto);
 
   useEffect(() => {
-    auth.onAuthStateChanged( async (user)=>{
-      if(user){
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
         setUser(user);
-        history.push("/home")
+        history('/home');
       }
-    })
-  }, [userName])
+    });
+  }, [userName]);
   const handleAuth = () => {
-    if(!userName){
-    auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        setUser(result.user);
-      })
-      .catch((error) => {
-        // alert(error.message);
-      });
-    }else if(userName){
-      auth.signOut().then(()=>{
-        dispatch(setSignOutState())
-        history.push("/")
-      }).catch(
-        err => {
+    if (!userName) {
+      auth
+        .signInWithPopup(provider)
+        .then((result) => {
+          setUser(result.user);
+        })
+        .catch((error) => {
+          // alert(error.message);
+        });
+    } else if (userName) {
+      auth
+        .signOut()
+        .then(() => {
+          dispatch(setSignOutState());
+          history('/');
+        })
+        .catch((err) => {
           // alert(err.message)
-      })
+        });
     }
   };
   const setUser = (user) => {
@@ -55,43 +57,57 @@ const Header = (props) => {
   };
   return (
     <NavbarRow>
-      <ImageLogo src="/images/logo.svg" alt="" className="" />
-      {!userName ? <SignupBtn onClick={handleAuth}>Sign up</SignupBtn> : (<>
-      <HeaderMenu>
-        <Link to="/home" className="NavMenu">
-          <img src="/images/home-icon.svg" alt="Home" className="NavIcon" />
-          <span>Home</span>
-        </Link>
-        <Link to="/search" className="NavMenu">
-          <img src="/images/search-icon.svg" alt="Home" className="NavIcon" />
-          <span>Search</span>
-        </Link>
-        <Link to="/watchlist" className="NavMenu">
-          <img
-            src="/images/watchlist-icon.svg"
-            alt="Home"
-            className="NavIcon"
-          />
-          <span>WatchList</span>
-        </Link>
-        <Link to="/originals" className="NavMenu">
-          <img src="/images/original-icon.svg" alt="Home" className="NavIcon" />
-          <span>Originals</span>
-        </Link>
-        <Link to="/series" className="NavMenu">
-          <img src="/images/series-icon.svg" alt="Home" className="NavIcon" />
-          <span>Series</span>
-        </Link>
-      </HeaderMenu>
-      <SignOut>
-      <UserImage title={userName} src={userPhoto} alt={userName} />
-      <DropDown>
-        <span onClick={handleAuth}>Sign Out</span>
-      </DropDown>
-      </SignOut>
-      </>)}
-      
-      
+      <ImageLogo src='/images/logo.svg' alt='' className='' />
+      {!userName ? (
+        <SignupBtn onClick={handleAuth}>Sign up</SignupBtn>
+      ) : (
+        <>
+          <HeaderMenu>
+            <Link to='/home' className='NavMenu'>
+              <img src='/images/home-icon.svg' alt='Home' className='NavIcon' />
+              <span>Home</span>
+            </Link>
+            <Link to='/search' className='NavMenu'>
+              <img
+                src='/images/search-icon.svg'
+                alt='Home'
+                className='NavIcon'
+              />
+              <span>Search</span>
+            </Link>
+            <Link to='/watchlist' className='NavMenu'>
+              <img
+                src='/images/watchlist-icon.svg'
+                alt='Home'
+                className='NavIcon'
+              />
+              <span>WatchList</span>
+            </Link>
+            <Link to='/originals' className='NavMenu'>
+              <img
+                src='/images/original-icon.svg'
+                alt='Home'
+                className='NavIcon'
+              />
+              <span>Originals</span>
+            </Link>
+            <Link to='/series' className='NavMenu'>
+              <img
+                src='/images/series-icon.svg'
+                alt='Home'
+                className='NavIcon'
+              />
+              <span>Series</span>
+            </Link>
+          </HeaderMenu>
+          <SignOut>
+            <UserImage title={userName} src={userPhoto} alt={userName} />
+            <DropDown>
+              <span onClick={handleAuth}>Sign Out</span>
+            </DropDown>
+          </SignOut>
+        </>
+      )}
     </NavbarRow>
   );
 };
@@ -119,7 +135,7 @@ const HeaderMenu = styled.div`
     position: relative;
     &::before {
       transition: 0.3s;
-      content: "";
+      content: '';
       position: absolute;
       bottom: -6px;
       left: 0;
@@ -170,27 +186,24 @@ const NavbarRow = styled.nav`
   width: 100%;
 `;
 const UserImage = styled.img`
- height: 100%;
- border-radius: 35%; 
-  
-  
-`
+  height: 100%;
+  border-radius: 35%;
+`;
 const DropDown = styled.div`
   position: absolute;
   top: 48px;
   right: 0;
   background: #2c3e50;
   padding: 10px;
-  
+
   border-radius: 2px;
   letter-spacing: 3px;
   border: 1px solid #bdc3c7;
   opacity: 0;
-  transition: opacity .5s;
+  transition: opacity 0.5s;
   font-size: 14px;
   visibility: hidden;
-  
-`
+`;
 const SignOut = styled.div`
   position: relative;
   height: 48px;
@@ -199,14 +212,11 @@ const SignOut = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  &:hover{
-    
-  ${DropDown}{
-    opacity: 1;
-    visibility: visible;
+  &:hover {
+    ${DropDown} {
+      opacity: 1;
+      visibility: visible;
+    }
   }
-  }
-
-
-`
+`;
 export default Header;

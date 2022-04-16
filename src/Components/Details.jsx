@@ -1,65 +1,59 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { Helmet } from "react-helmet";
-import { useParams } from "react-router-dom";
-import db from "../Firebase";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
+import db from '../Firebase';
 const Details = () => {
   const { id } = useParams();
   const [detailData, setDetailData] = useState({});
 
   useEffect(() => {
-    db.collection("movies").doc(id)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            setDetailData(doc.data());
-          } else {
-            console.log("no much document in firebase");
-          }
-        })
-        .catch((error) => {
-          console.log("Error getting document : ", error);
-        })
-  }, [id]); 
+    db.collection('movies')
+      .doc(id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          setDetailData(doc.data());
+        } else {
+          console.log('no much document in firebase');
+        }
+      })
+      .catch((error) => {
+        console.log('Error getting document : ', error);
+      });
+  }, [id]);
 
-  
   return (
     <Container>
       <Helmet>
-          <title>{`Details ${!detailData.title ? "" : " | " + detailData.title}`}</title>
-        </Helmet>
+        <title>{`Details ${
+          !detailData.title ? '' : ' | ' + detailData.title
+        }`}</title>
+      </Helmet>
       <Background>
-        <img
-          src={detailData.backgroundImg}
-          alt={detailData.title}
-        />
+        <img src={detailData.backgroundImg} alt={detailData.title} />
       </Background>
 
       <ImageTitle>
-        <img
-          src={detailData.titleImg}
-          alt={detailData.title}
-        />
+        <img src={detailData.titleImg} alt={detailData.title} />
       </ImageTitle>
       <ContentMeta>
         <Controls>
           <Player>
-            <img src="/images/play-icon-black.png" alt="" />
+            <img src='/images/play-icon-black.png' alt='' />
             <span>PLAY</span>
           </Player>
           <Trailer>
-            <img src="/images/play-icon-white.png" alt="" />
+            <img src='/images/play-icon-white.png' alt='' />
             <span>TRAILER</span>
           </Trailer>
           <AddList>+</AddList>
           <AddList>
-            <img src="/images/group-icon.png" alt="" />
+            <img src='/images/group-icon.png' alt='' />
           </AddList>
         </Controls>
         <SubTitle>{detailData.subTitle}</SubTitle>
-        <Description>
-          {detailData.description}
-        </Description>
+        <Description>{detailData.description}</Description>
         <br />
       </ContentMeta>
     </Container>
@@ -146,7 +140,7 @@ const Player = styled.button`
   }
 `;
 const Trailer = styled.button`
-color: white !important;
+  color: white !important;
   outline: none;
   display: flex;
   align-items: center;

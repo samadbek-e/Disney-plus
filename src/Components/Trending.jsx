@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { selectTrending } from "../features/movie/movieSlice";
-import { useSelector } from "react-redux";
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { selectTrending } from '../features/movie/movieSlice';
+import { useSelector } from 'react-redux';
 const Trending = () => {
   const movies = useSelector(selectTrending);
   return (
@@ -12,7 +12,7 @@ const Trending = () => {
         {movies &&
           movies.map((movie, key) => (
             <Wrap key={key}>
-              <Link to={"/detail/" + movie.id}>
+              <Link to={'/detail/' + movie.id}>
                 <img
                   src={movie.cardImg}
                   title={movie.title}
@@ -43,7 +43,7 @@ const Content = styled.div`
   }
 `;
 const Wrap = styled.div`
-  transition: all .2s;
+  transition: all 0.2s;
   overflow: hidden;
   border: 3px solid rgba(249, 249, 249, 0.1);
   border-radius: 10px;
@@ -58,9 +58,9 @@ const Wrap = styled.div`
   }
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.8) 0px 40px 58px -16px,
-    rgba(0, 0, 0, 0.5) -5px 45px 30px -20px;
+      rgba(0, 0, 0, 0.5) -5px 45px 30px -20px;
     transform: scale(1.05);
-    border-color: rgba(255,255,255, .8)
+    border-color: rgba(255, 255, 255, 0.8);
   }
 `;
 
