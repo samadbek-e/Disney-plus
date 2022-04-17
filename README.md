@@ -5,7 +5,7 @@
  
 ## Links:
 <https://disneyplus-pro.web.app> <br/>
-<disneyplus-pro.firebaseapp.com>
+<https://disneyplus-pro.firebaseapp.com/>
 
 | Login Page                                        | Home page                                       |
 |:-------------------------------------------------:|:-----------------------------------------------:|
