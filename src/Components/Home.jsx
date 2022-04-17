@@ -9,6 +9,7 @@ import Trending from './Trending';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import db from '../Firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { setMovies } from '../features/movie/movieSlice';
 import { selectUserName } from '../features/user/userSlice';
 import { Helmet } from 'react-helmet';
@@ -22,25 +23,20 @@ function Home(props) {
   let trending = [];
 
   useEffect(() => {
-    db.collection('movies').onSnapshot((snapshot) => {
+    onSnapshot(collection(db, 'movies'), (snapshot) => {
       snapshot.docs.map((doc) => {
         switch (doc.data().type) {
           case 'recommend':
             recommends = [...recommends, { id: doc.id, ...doc.data() }];
             break;
-
           case 'new':
             newDisneys = [...newDisneys, { id: doc.id, ...doc.data() }];
             break;
-
           case 'original':
             originals = [...originals, { id: doc.id, ...doc.data() }];
-
             break;
-
           case 'trending':
             trending = [...trending, { id: doc.id, ...doc.data() }];
-
             break;
         }
       });
@@ -53,10 +49,10 @@ function Home(props) {
         })
       );
     });
-  }, [userName]);
+  }, []);
   return (
     userName && (
-      <>
+      <React.Fragment>
         <Helmet>
           <title>{`Disney-plus-clone`}</title>
         </Helmet>
@@ -80,7 +76,7 @@ function Home(props) {
             <Originals />
           </div>
         </Container>
-      </>
+      </React.Fragment>
     )
   );
 }

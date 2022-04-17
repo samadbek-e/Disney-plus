@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
+import { signInWithPopup, signOut } from 'firebase/auth';
 import './components.css';
 import {
   selectUserName,
@@ -20,14 +21,14 @@ const Header = (props) => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
+        console.log(user);
         history('/home');
       }
     });
   }, [userName]);
   const handleAuth = () => {
     if (!userName) {
-      auth
-        .signInWithPopup(provider)
+      signInWithPopup(auth, provider)
         .then((result) => {
           setUser(result.user);
         })
@@ -35,8 +36,7 @@ const Header = (props) => {
           // alert(error.message);
         });
     } else if (userName) {
-      auth
-        .signOut()
+      signOut(auth)
         .then(() => {
           dispatch(setSignOutState());
           history('/');
@@ -124,7 +124,6 @@ const HeaderMenu = styled.div`
   margin-right: auto;
   margin-left: 20px;
   font-size: 13px;
-  letter-spacing: 1px;
   img {
     margin-right: 2px;
   }
@@ -154,7 +153,7 @@ const HeaderMenu = styled.div`
     }
   }
 `;
-const SignupBtn = styled.a`
+const SignupBtn = styled.button`
   font-weight: bold;
   padding: 8px 15px;
   font-size: 15px;
@@ -163,9 +162,9 @@ const SignupBtn = styled.a`
   text-align: center;
   transition: 0.3s;
   margin-left: 10px;
-  letter-spacing: 2px !important;
+  background-color: transparent;
+  color: white;
   cursor: pointer;
-  letter-spacing: 0;
   &:hover {
     color: #040714;
     background: #f9f9f9;
@@ -197,7 +196,6 @@ const DropDown = styled.div`
   padding: 10px;
 
   border-radius: 2px;
-  letter-spacing: 3px;
   border: 1px solid #bdc3c7;
   opacity: 0;
   transition: opacity 0.5s;

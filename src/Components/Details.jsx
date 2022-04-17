@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import db from '../Firebase';
+import { doc, getDoc } from 'firebase/firestore';
+
 const Details = () => {
   const { id } = useParams();
   const [detailData, setDetailData] = useState({});
 
   useEffect(() => {
-    db.collection('movies')
-      .doc(id)
-      .get()
+    getDoc(doc(db, 'movies', id))
       .then((doc) => {
         if (doc.exists) {
           setDetailData(doc.data());
@@ -120,7 +120,7 @@ const Player = styled.button`
   border-radius: 4px;
   height: 56px;
   margin: 0 24px 0 0;
-  letter-spacing: 1.1px;
+
   background: rgb(249, 249, 249);
   color: black;
   img {
@@ -151,7 +151,6 @@ const Trailer = styled.button`
   border-radius: 4px;
   height: 56px;
   margin: 0 24px 0 0;
-  letter-spacing: 1.1px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgb(249, 249, 249);
   color: black;
