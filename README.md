@@ -4,8 +4,8 @@
 [Firebase](https://firebase.google.com/)
  
 ## Links:
-<https://disneyplus-clone-pro.firebaseapp.com> <br/>
-<https://disneyplus-clone-pro.web.app>
+<https://disneyplus-pro.web.app> <br/>
+<disneyplus-pro.firebaseapp.com>
 
 | Login Page                                        | Home page                                       |
 |:-------------------------------------------------:|:-----------------------------------------------:|
